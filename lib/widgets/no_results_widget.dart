@@ -5,6 +5,7 @@ class NoResults extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
           Icon(Icons.search_off),
           Text('No hay resultados'),

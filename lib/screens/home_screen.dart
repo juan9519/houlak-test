@@ -10,6 +10,7 @@ class Home extends StatelessWidget {
         slivers: [
           SliverAppBar(
             expandedHeight: 180,
+            leading: Container(),
             actions: [
               IconButton(
                   onPressed: () async {

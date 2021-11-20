@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:houlak/bloc/artist/artist_bloc.dart';
+import 'package:houlak/services/spotify_search.dart';
 import 'package:houlak/widgets/no_results_widget.dart';
-import 'package:spotify/spotify.dart' show Artist;
+import 'package:spotify/spotify.dart' show Artist, Track;
 
 
 
@@ -26,7 +29,7 @@ class ArtistSuggestion extends StatelessWidget {
                child: art.images!.isNotEmpty ? Image.network(art.images!.first.url!) : Container()
             ),
             title: Text(art.name!),
-            onTap: () => artistaSeleccionado(art.id!),
+            onTap: () => artistaSeleccionado(context,art.id!),
           );
         },
       );
@@ -34,8 +37,16 @@ class ArtistSuggestion extends StatelessWidget {
   }
 
 
-  void artistaSeleccionado (String idArtist){
-    //pasar la info del artista al bloc y cargarla en la siguiente pantalla
+  void artistaSeleccionado (BuildContext context,String idArtist) async {
+    ArtistBloc aBloc = BlocProvider.of<ArtistBloc>(context);
+
+    Artist artist = await SpotifySearch.artistDetail(idArtist);
+    List<Track> topTracks = await SpotifySearch.topTracks(idArtist);
+
+    aBloc.add(OnAddArtist(artist));
+    aBloc.add(OnAddTopTracks(topTracks));
+
+    Navigator.pushNamed(context, '/artist_detail');
 
   }
 }
