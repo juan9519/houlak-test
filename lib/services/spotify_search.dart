@@ -9,22 +9,20 @@ class SpotifySearch {
   static SpotifyApi _spotify = SpotifyApi(_credentials);
 
   ///Busca artistas y los devuelve ordenados por popularidad
-  Future<List<Artist>> searchArtist(String lookingFor) async {
+  Future<List<Artist>> searchArtist(String lookingFor, int quantity) async {
     List<Artist> lista = <Artist>[];
 
     var search = await _spotify.search
         .get(lookingFor, types: <SearchType>[SearchType.artist])
-        .first(15)
+        .first(quantity)
         .catchError((err) => print((err as SpotifyException).message));
-    if (search != null) {
-      search.forEach((pages) {
-        pages.items!.forEach((item) {
-          if (item is Artist) {
-            lista.add(item);
-          }
-        });
+    search.forEach((pages) {
+      pages.items!.forEach((item) {
+        if (item is Artist) {
+          lista.add(item);
+        }
       });
-    }
+    });
 
     ///Ordena de mayor a menor popularidad
     lista.sort((a, b) => b.popularity!.compareTo(a.popularity!));

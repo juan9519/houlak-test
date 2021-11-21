@@ -12,7 +12,6 @@ class CategoryContainer extends StatelessWidget {
       alignment: Alignment.centerLeft,
       child: Text(title,
           style: const TextStyle(
-              color: Colors.black54,
               fontSize: 18,
               fontWeight: FontWeight.bold)),
     );

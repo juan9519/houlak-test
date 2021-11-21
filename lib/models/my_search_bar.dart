@@ -7,6 +7,10 @@ class MySearchBar extends SearchDelegate {
   final SpotifySearch _spotifySearch = SpotifySearch();
 
   @override
+  // TODO: implement searchFieldLabel
+  String? get searchFieldLabel => 'Buscar...';
+
+  @override
   List<Widget>? buildActions(BuildContext context) {
     return [
       IconButton(
@@ -26,27 +30,39 @@ class MySearchBar extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Text("hola");
+    return buildArtistList(50);
+
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
+
+    return buildArtistList(10);
+  }
+
+  Widget buildArtistList(int quantity) {
     if (query.isEmpty) {
       return Container();
     } else {
-      return FutureBuilder<List<Artist>>(
-          future: _spotifySearch.searchArtist(query),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            switch (snapshot.connectionState) {
-              case ConnectionState.waiting:
-                return Center(child: CircularProgressIndicator());
-              default:
-                if(snapshot.hasError)
-                  return Container();
-                else
-                return ArtistSuggestion(snapshot.data);
-            }
-          });
+      return searchArtists(quantity);
     }
+  }
+
+  FutureBuilder<List<Artist>> searchArtists(int quantity) {
+    return FutureBuilder<List<Artist>>(
+
+
+        future: _spotifySearch.searchArtist(query, quantity),
+        builder: (BuildContext context, AsyncSnapshot snapshot) {
+          switch (snapshot.connectionState) {
+            case ConnectionState.waiting:
+              return Center(child: CircularProgressIndicator());
+            default:
+              if(snapshot.hasError)
+                return Container();
+              else
+              return ArtistSuggestion(snapshot.data);
+          }
+        });
   }
 }

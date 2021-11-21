@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:houlak/bloc/player/player_bloc.dart';
 
 import 'package:houlak/screens/artist_detail_screen.dart';
@@ -25,6 +26,11 @@ class MyApp extends StatelessWidget {
           '/home': (BuildContext context) => Home(),
           '/artist_detail': (BuildContext context) => ArtistDetail()
         },
+        theme: ThemeData.dark().copyWith(
+          textTheme: GoogleFonts.montserratTextTheme(
+            Theme.of(context).primaryTextTheme
+          )
+        ),
       ),
     );
   }

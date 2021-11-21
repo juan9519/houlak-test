@@ -39,7 +39,7 @@ class _TopTracksState extends State<TopTracks> {
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     physics: const NeverScrollableScrollPhysics(),
                     shrinkWrap: true,
-                    itemCount: topList.length,
+                    itemCount: topList.length > 5 ? 5 : topList.length ,
                     itemBuilder: (BuildContext context, int index) {
                       final track = topList[index];
                       return TopTrackElement(track: track, player: _player);
